@@ -1,9 +1,8 @@
 "use strict";
 
 const React = require('react');
-const Hello = require('./components/hello');
+const Blog = require('./components/blog');
 
 React.render(
-  <Hello />
+  <Blog />
   , document.querySelector('body'));
-
