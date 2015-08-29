@@ -42,6 +42,11 @@ router
   .get('/', function *(next) {
     this.render('home')
   })
+  .get('/article/:id', function *(next){
+    var article = yield Article.findOne( {_id: this.params.id} );
+    this.state.article = react.renderToString( ArticleNav({articles: [article]}) );
+    this.render( 'article' );
+  })
   .get('/add-article', function *(next){
     var articles = yield Article.find();
     this.render('add-article', {articles: articles} );

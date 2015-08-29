@@ -5,7 +5,6 @@ const {Col} = require('react-bootstrap');
 
 class ArticleNav extends React.Component{
   constructor(props){
-    console.log(props)
     super(props)
   }
 
@@ -15,9 +14,10 @@ class ArticleNav extends React.Component{
 
         <ul style={{listStyleType: 'none'}}>
           {this.props.articles.map(function(article){
+            console.log(article, article['_id'], article.body);
             var res = []
 
-            res.push(<li>{article.title}</li>)
+            res.push(<li><a href={"/article/" + article['_id']}>{article.title}</a></li>)
 
             if(article.posts.length > 0){
               res.push( article.posts.map(function(post){
