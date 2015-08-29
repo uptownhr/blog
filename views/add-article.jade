@@ -1,0 +1,20 @@
+extends ./layout.jade
+
+block title
+  title Add Article
+block content
+  form(method="post" action="/add-article")
+    div.form-group
+      label Select Article
+      select.form-control(name="parent_article_id")
+        option(value="")
+        each article, i in articles
+          option(value="#{article._id}") #{article.title}
+    div.form-group
+      label Title
+      input.form-control(type="text" placeholder="title" name="title")
+    div.form-group
+      label Body
+      textarea.form-control(rows="5" name="body")
+    button.btn.btn-default(type="submit") Add Article
+    input(type="submit")

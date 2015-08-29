@@ -20,14 +20,14 @@ class Blog extends React.Component{
         </Navbar>
         <div className="container-fluid">
           <Row>
-            <Col md={4}>
-              <ul>Nav
+            <Col sm={2}>
+              <ul>Articles
                 <li>Article 1</li>
-                <li>Article 1</li>
-                <li>Article 1</li>
+                <li>Article 2</li>
+                <li>Article 3</li>
               </ul>
             </Col>
-            <Col md={8}>
+            <Col sm={10}>
               {/*
               when nothing is sent, this area will display the latest article->post
               */}

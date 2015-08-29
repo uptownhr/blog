@@ -1,20 +1,55 @@
 const koa = require('koa');
 const logger = require('koa-logger');
+
+const router = require('koa-router')();
+const koaBody = require('koa-body')();
+
+
+const jade = require('koa-jade');
 const views = require('koa-views');
 const serve = require('koa-static');
-const router = require('koa-router')();
+
 const mongoose = require('mongoose');
+const Article = require('./models/Article.js');
+
+mongoose.connect('mongodb://localhost/blog');
+
 
 const app = koa();
 
 app.use(logger());
-app.use(views('views'));
+app.use(jade.middleware({
+  viewPath: 'views',
+  debug: true,
+  noCache: true,
+  basedir: 'views'
+}));
+
 app.use(serve('public'));
 
 // response
 router
   .get('/', function *(next) {
     yield this.render('home')
+  })
+  .get('/add-article', function *(next){
+    var articles = yield Article.find();
+    this.render('add-article', {articles: articles} );
+  })
+  .post('/add-article', koaBody, function *(next){
+    var body = this.request.body;
+    var id = this.request.body.parent_article_id;
+
+    var article, res;
+    if(id){
+      article = yield Article.findOne({_id: id});
+      article.posts.push(body);
+      res = yield article.save();
+    }else{
+      var article = new Article(body);
+      res  = yield article.save();
+    }
+    this.body = res;
   })
   .get('/hello', function *(next) {
     yield this.render('hello')
@@ -36,7 +71,6 @@ router
 app
   .use(router.routes())
   .use(router.allowedMethods());
-
 module.exports = app;
 
 // start app if it isn't being required into another module
