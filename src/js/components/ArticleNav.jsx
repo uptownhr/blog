@@ -1,7 +1,6 @@
 'use strict';
 
 const React = require('react');
-const {Col} = require('react-bootstrap');
 
 class ArticleNav extends React.Component{
   constructor(props){
@@ -10,26 +9,22 @@ class ArticleNav extends React.Component{
 
   render(){
     return(
-      <Col sm={2}>
+      <ul style={{listStyleType: 'none'}}>
+        {this.props.articles.map(function(article){
+          var res = []
 
-        <ul style={{listStyleType: 'none'}}>
-          {this.props.articles.map(function(article){
-            console.log(article, article['_id'], article.body);
-            var res = []
+          res.push(<li><a href={"/article/" + article['_id']}>{article.title}</a></li>)
 
-            res.push(<li><a href={"/article/" + article['_id']}>{article.title}</a></li>)
+          if(article.posts.length > 0){
+            res.push( article.posts.map(function(post){
+              return <li style={ {paddingLeft: '10px'} }><a href={ "/article/" + article['_id'] + "#" + post['_id'] }>{post.title}</a></li>
+            }) )
+          }
 
-            if(article.posts.length > 0){
-              res.push( article.posts.map(function(post){
-                return <li style={{paddingLeft: '10px'}}>{post.title}</li>
-              }) )
-            }
+          return res
+        })}
 
-            return res
-          })}
-
-        </ul>
-      </Col>
+      </ul>
     )
   }
 }

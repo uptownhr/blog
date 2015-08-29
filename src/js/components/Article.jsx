@@ -15,9 +15,9 @@ class Article extends React.Component{
 
   render(){
     return(
-      <article>
+      <article id={this.props.id}>
         <div>
-          <span>{this.props.date}</span> | <span>{this.props.author}</span>
+          <span>{this.props.date.toString()}</span> | <span>{this.props.author}</span>
         </div>
         <h2>{this.props.title}</h2>
         <p>{this.props.body}</p>

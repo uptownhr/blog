@@ -15,6 +15,7 @@ const Article = require('./models/Article');
 require('node-jsx').install();
 const react = require('react');
 const ArticleNav = react.createFactory( require('./src/js/components/ArticleNav') );
+const Story = react.createFactory( require('./src/js/components/Story') );
 
 mongoose.connect('mongodb://localhost/blog');
 
@@ -43,8 +44,9 @@ router
     this.render('home')
   })
   .get('/article/:id', function *(next){
+    console.log('testing', this.params);
     var article = yield Article.findOne( {_id: this.params.id} );
-    this.state.article = react.renderToString( ArticleNav({articles: [article]}) );
+    this.state.story = react.renderToString( Story({article: article}) );
     this.render( 'article' );
   })
   .get('/add-article', function *(next){
