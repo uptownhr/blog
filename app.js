@@ -10,7 +10,11 @@ const views = require('koa-views');
 const serve = require('koa-static');
 
 const mongoose = require('mongoose');
-const Article = require('./models/Article.js');
+const Article = require('./models/Article');
+
+require('node-jsx').install();
+const react = require('react');
+const ArticleNav = react.createFactory( require('./src/js/components/ArticleNav') );
 
 mongoose.connect('mongodb://localhost/blog');
 
@@ -27,10 +31,16 @@ app.use(jade.middleware({
 
 app.use(serve('public'));
 
+app.use(function *(next){
+  var articles = yield Article.find().sort({updatedAt: -1});
+  this.state.article_nav = react.renderToString( ArticleNav({articles: articles}) );
+  yield next;
+});
+
 // response
 router
   .get('/', function *(next) {
-    yield this.render('home')
+    this.render('home')
   })
   .get('/add-article', function *(next){
     var articles = yield Article.find();

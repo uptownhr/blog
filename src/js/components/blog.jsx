@@ -12,12 +12,6 @@ class Blog extends React.Component{
   render(){
     return(
       <div>
-        <Navbar brand='Freedom Blog'>
-          <Nav>
-            <NavItem eventKey={1} href='#'>Link</NavItem>
-            <NavItem eventKey={2} href='#'>Link</NavItem>
-          </Nav>
-        </Navbar>
         <div className="container-fluid">
           <Row>
             <Col sm={2}>
