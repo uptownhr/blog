@@ -20,7 +20,7 @@ class Article extends React.Component{
           <span>{this.props.date.toString()}</span> | <span>{this.props.author}</span>
         </div>
         <h2>{this.props.title}</h2>
-        <p>{this.props.body}</p>
+        <div dangerouslySetInnerHTML={{__html: this.props.body}} />
       </article>
     );
   }
