@@ -46,7 +46,8 @@ router
   .get('/article/:id', function *(next){
     console.log('testing', this.params);
     var article = yield Article.findOne( {_id: this.params.id} );
-    this.state.story = react.renderToString( Story({article: article}) );
+
+    this.state.story = react.renderToString( Story({article: article.marked()}) );
     this.render( 'article' );
   })
   .get('/add-article', function *(next){
