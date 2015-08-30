@@ -3,3 +3,8 @@
 body{
 
 }
+
+.article_nav{
+    position: fixed;
+    top: 0;
+}

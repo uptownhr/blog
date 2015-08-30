@@ -14,7 +14,7 @@ class Story extends React.Component{
 
     return(
       <div>
-        <Article date={article.createdAt} author="Testing Author" title={article.title} body={article.body} />
+        <Article id={article['_id']} date={article.createdAt} author="Testing Author" title={article.title} body={article.body} />
 
         {article.posts.map( (post, index) => {
           console.log(post);
