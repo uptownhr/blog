@@ -22,3 +22,5 @@ article{
     margin-bottom: 10px;
     border-bottom: 1px dotted black;
 }
+
+@media screen and (max-width:768px) { .article_nav { position: static; } }
