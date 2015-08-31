@@ -24,7 +24,7 @@ articleSchema.pre('save', function(next){
 });
 
 articleSchema.methods.marked = function(next){
-  this.body = marked(this.body);
+  this.body = markdown.toHTML(this.body);
   this.posts = this.posts.map( function(post){
     post.body = markdown.toHTML(post.body);
 

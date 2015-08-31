@@ -7,6 +7,10 @@ body{
     top: 0;
 }
 
+.article_nav ul{
+    padding-left: 10px;
+}
+
 .article_nav li{
     text-overflow: ellipsis;
     white-space: nowrap;
