@@ -55,8 +55,8 @@ router
     }
 
   })
-  .get('/article/:id', function *(next){
-    var story = yield Story.findOne( {_id: this.params.id} );
+  .get('/article/:slug', function *(next){
+    var story = yield Story.findOne( {slug: this.params.slug} );
 
     this.state.title = story.title;
     this.state.story = react.renderToString( StoryComponent({story: story.marked()}) );
