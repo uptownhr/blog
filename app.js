@@ -1,4 +1,5 @@
 const koa = require('koa');
+const config = require('./config/config');
 const logger = require('koa-logger');
 
 const router = require('koa-router')();
@@ -35,6 +36,8 @@ app.use(serve('public'));
 app.use(function *(next){
   var articles = yield Article.find().sort({updatedAt: -1});
   this.state.article_nav = react.renderToString( ArticleNav({articles: articles}) );
+  this.state.title = config.title;
+  this.state.tag = config.tag;
   yield next;
 });
 
@@ -44,10 +47,11 @@ router
     this.render('home')
   })
   .get('/article/:id', function *(next){
-    console.log('testing', this.params);
     var article = yield Article.findOne( {_id: this.params.id} );
 
+    this.state.title = article.title;
     this.state.story = react.renderToString( Story({article: article.marked()}) );
+
     this.render( 'article' );
   })
   .get('/add-article', function *(next){
