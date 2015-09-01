@@ -33,7 +33,10 @@ app.use(jade.middleware({
 }));
 
 app.use(serve('public'));
-
+app.use(function *(next){
+  console.log(this.request);
+  yield next;
+});
 app.use(function *(next){
   var stories = yield Story.find().sort({updatedAt: -1});
   this.state.stories = stories || [];
@@ -56,7 +59,7 @@ router
     }
 
   })
-  .get('/article/:slug', function *(next){
+  .get('/:slug', function *(next){
     var story = yield Story.findOne( {slug: this.params.slug} );
 
     this.state.title = story.title;

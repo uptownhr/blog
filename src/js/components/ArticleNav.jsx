@@ -13,11 +13,11 @@ class ArticleNav extends React.Component{
         {this.props.stories.map(function(article){
           var res = []
 
-          res.push(<li><a href={"/article/" + article['slug'] + "#" + article['_id']}>{article.title}</a></li>)
+          res.push(<li><a href={"/" + article['slug'] + "#" + article['_id']}>{article.title}</a></li>)
 
           if(article.posts.length > 0){
             res.push( article.posts.map(function(post){
-              return <li style={ {paddingLeft: '10px'} }><a href={ "/article/" + article['slug'] + "#" + post['_id'] }>{post.title}</a></li>
+              return <li style={ {paddingLeft: '10px'} }><a href={ "/" + article['slug'] + "#" + post['_id'] }>{post.title}</a></li>
             }) )
           }
 
