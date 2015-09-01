@@ -9,7 +9,7 @@ var postSchema = new mongoose.Schema({
   createdAt: {type: Date, default: Date.now() }
 });
 
-var articleSchema = new mongoose.Schema({
+var storySchema = new mongoose.Schema({
   title: {type: String},
   body: {type: String},
   posts: [postSchema],
@@ -18,12 +18,12 @@ var articleSchema = new mongoose.Schema({
   createdAt: {type: Date, default: Date.now() }
 });
 
-articleSchema.pre('save', function(next){
+storySchema.pre('save', function(next){
   this.updatedAt = Date.now();
   next();
 });
 
-articleSchema.methods.marked = function(next){
+storySchema.methods.marked = function(next){
   this.body = markdown.toHTML(this.body);
   this.posts = this.posts.map( function(post){
     post.body = markdown.toHTML(post.body);
@@ -34,4 +34,4 @@ articleSchema.methods.marked = function(next){
   return this;
 };
 
-module.exports = mongoose.model('Article', articleSchema);
+module.exports = mongoose.model('Story', storySchema);

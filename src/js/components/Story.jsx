@@ -10,13 +10,13 @@ class Story extends React.Component{
   }
 
   render(){
-    var article = this.props.article;
+    var story = this.props.story;
 
     return(
       <div>
-        <Article id={article['_id']} date={article.createdAt} author="Testing Author" title={article.title} body={article.body} />
+        <Article id={story['_id']} date={story.createdAt} author="Testing Author" title={story.title} body={story.body} />
 
-        {article.posts.map( (post, index) => {
+        {story.posts.map( (post, index) => {
           return <Article key={index} id={post['_id']} date={post.createdAt} author="Testing Author" title={post.title} body={post.body} />
         })}
       </div>

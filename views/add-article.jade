@@ -7,8 +7,8 @@ block content
     div.form-group
       label Select Article
       select.form-control(name="parent_article_id")
-        option(value="")
-        each article, i in articles
+        option(value="") New Article
+        each article, i in story
           option(value="#{article._id}") #{article.title}
     div.form-group
       label Title

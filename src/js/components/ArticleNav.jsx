@@ -10,7 +10,7 @@ class ArticleNav extends React.Component{
   render(){
     return(
       <ul style={{listStyleType: 'none'}}>
-        {this.props.articles.map(function(article){
+        {this.props.story.map(function(article){
           var res = []
 
           res.push(<li><a href={"/article/" + article['_id'] + "#" + article['_id']}>{article.title}</a></li>)

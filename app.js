@@ -11,12 +11,12 @@ const views = require('koa-views');
 const serve = require('koa-static');
 
 const mongoose = require('mongoose');
-const Article = require('./models/Article');
+const Story = require('./models/Story');
 
 require('node-jsx').install();
 const react = require('react');
-const ArticleNav = react.createFactory( require('./src/js/components/ArticleNav') );
-const Story = react.createFactory( require('./src/js/components/Story') );
+const ArticleNavComponent = react.createFactory( require('./src/js/components/ArticleNav') );
+const StoryComponent = react.createFactory( require('./src/js/components/Story') );
 
 mongoose.connect('mongodb://localhost/blog');
 
@@ -34,10 +34,10 @@ app.use(jade.middleware({
 app.use(serve('public'));
 
 app.use(function *(next){
-  var articles = yield Article.find().sort({updatedAt: -1});
-  this.state.articles = articles || [];
-  this.state.latest_article = articles[0] || {};
-  this.state.article_nav = react.renderToString( ArticleNav({articles: articles}) );
+  var story = yield Story.find().sort({updatedAt: -1});
+  this.state.story = story || [];
+  this.state.latest_story = story[0];
+  this.state.article_nav = react.renderToString( ArticleNavComponent({story}) );
   this.state.title = config.title;
   this.state.sub_title = config.sub_title;
   yield next;
@@ -46,14 +46,19 @@ app.use(function *(next){
 // response
 router
   .get('/', function *(next) {
-    this.state.story = react.renderToString( Story({article: this.state.latest_article.marked() }) )
-    this.render( 'article' )
+    if(this.state.story.length > 0 ){
+      this.state.story = react.renderToString( StoryComponent({story: this.state.latest_story.marked() }) )
+      this.render( 'article' )
+    }else{
+      this.render('add-article');
+    }
+
   })
   .get('/article/:id', function *(next){
-    var article = yield Article.findOne( {_id: this.params.id} );
+    var story = yield Story.findOne( {_id: this.params.id} );
 
-    this.state.sub_title = article.title;
-    this.state.story = react.renderToString( Story({article: article.marked()}) );
+    this.state.sub_title = story.title;
+    this.state.story = react.renderToString( StoryComponent({story: story.marked()}) );
 
     this.render( 'article' );
   })
@@ -65,14 +70,14 @@ router
     var body = this.request.body;
     var id = this.request.body.parent_article_id;
 
-    var article, res;
+    var post, res;
     if(id){
-      article = yield Article.findOne({_id: id});
-      article.posts.push(body);
-      res = yield article.save();
+      story = yield Story.findOne({_id: id});
+      story.posts.push(body);
+      res = yield story.save();
     }else{
-      var article = new Article(body);
-      res  = yield article.save();
+      var story = new Story(body);
+      res  = yield story.save();
     }
     this.body = res;
   })
