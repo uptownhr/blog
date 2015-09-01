@@ -7,7 +7,7 @@ COPY . /data
 
 # pull application packages
 RUN npm install
-RUN npm install -G forever
+RUN npm install -g forever
 
 VOLUME ["/data"]
 EXPOSE 9999
