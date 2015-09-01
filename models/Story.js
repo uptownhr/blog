@@ -1,7 +1,19 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var markdown = require('markdown').markdown;
+var marked = require('marked');
 var config = require('../config/config');
+
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  gfm: false,
+  tables: true,
+  breaks: true,
+  pedantic: true,
+  sanitize: true,
+  smartLists: true,
+  smartypants: true
+});
 
 var postSchema = new mongoose.Schema({
   title: {type: String},
@@ -35,9 +47,9 @@ storySchema.pre('save', function(next){
 });
 
 storySchema.methods.marked = function(next){
-  this.body = markdown.toHTML(this.body);
+  this.body = marked(this.body);
   this.posts = this.posts.map( function(post){
-    post.body = markdown.toHTML(post.body);
+    post.body = marked(post.body);
 
     return post;
   });
