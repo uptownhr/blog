@@ -38,8 +38,9 @@ app.use(function *(next){
   this.state.story = story || [];
   this.state.latest_story = story[0];
   this.state.article_nav = react.renderToString( ArticleNavComponent({story}) );
+  this.state.brand = config.brand;
   this.state.title = config.title;
-  this.state.sub_title = config.sub_title;
+  this.state.author = config.author;
   yield next;
 });
 
@@ -57,7 +58,7 @@ router
   .get('/article/:id', function *(next){
     var story = yield Story.findOne( {_id: this.params.id} );
 
-    this.state.sub_title = story.title;
+    this.state.title = story.title;
     this.state.story = react.renderToString( StoryComponent({story: story.marked()}) );
 
     this.render( 'article' );

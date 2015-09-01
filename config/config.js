@@ -1,4 +1,5 @@
 module.exports = {
-  title: process.env.TITLE || 'Blog',
-  sub_title: process.env.SUB_TITLE || 'My blog'
+  brand: process.env.BRAND || 'Blog',
+  title: process.env.TITLE || 'My blog',
+  author: process.env.AUTHOR || 'Some Author'
 }
