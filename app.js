@@ -35,21 +35,24 @@ app.use(serve('public'));
 
 app.use(function *(next){
   var articles = yield Article.find().sort({updatedAt: -1});
+  this.state.articles = articles || [];
+  this.state.latest_article = articles[0] || {};
   this.state.article_nav = react.renderToString( ArticleNav({articles: articles}) );
   this.state.title = config.title;
-  this.state.tag = config.tag;
+  this.state.sub_title = config.sub_title;
   yield next;
 });
 
 // response
 router
   .get('/', function *(next) {
-    this.render('home')
+    this.state.story = react.renderToString( Story({article: this.state.latest_article.marked() }) )
+    this.render( 'article' )
   })
   .get('/article/:id', function *(next){
     var article = yield Article.findOne( {_id: this.params.id} );
 
-    this.state.title = article.title;
+    this.state.sub_title = article.title;
     this.state.story = react.renderToString( Story({article: article.marked()}) );
 
     this.render( 'article' );
