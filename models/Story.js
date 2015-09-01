@@ -6,7 +6,8 @@ var config = require('../config/config');
 var postSchema = new mongoose.Schema({
   title: {type: String},
   body: {type: String},
-
+  author: {type: String, default: config.author },
+  updatedAt: {type: Date, default: Date.now() },
   createdAt: {type: Date, default: Date.now() }
 });
 

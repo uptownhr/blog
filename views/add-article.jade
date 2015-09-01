@@ -5,11 +5,11 @@ block title
 block content
   form(method="post" action="/add-article")
     div.form-group
-      label Select Article
+      label Select Story
       select.form-control(name="parent_article_id")
-        option(value="") New Article
-        each article, i in story
-          option(value="#{article._id}") #{article.title}
+        option(value="") New Story
+        each story, i in stories
+          option(value="#{story._id}") #{story.title}
     div.form-group
       label Title
       input.form-control(type="text" placeholder="title" name="title")

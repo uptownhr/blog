@@ -34,10 +34,10 @@ app.use(jade.middleware({
 app.use(serve('public'));
 
 app.use(function *(next){
-  var story = yield Story.find().sort({updatedAt: -1});
-  this.state.story = story || [];
-  this.state.latest_story = story[0];
-  this.state.article_nav = react.renderToString( ArticleNavComponent({story}) );
+  var stories = yield Story.find().sort({updatedAt: -1});
+  this.state.stories = stories || [];
+  this.state.latest_story = stories[0];
+  this.state.article_nav = react.renderToString( ArticleNavComponent({stories}) );
   this.state.brand = config.brand;
   this.state.title = config.title;
   this.state.author = config.author;
@@ -47,9 +47,9 @@ app.use(function *(next){
 // response
 router
   .get('/', function *(next) {
-    if(this.state.story.length > 0 ){
+    if(this.state.stories.length > 0 ){
       this.state.story = react.renderToString( StoryComponent({story: this.state.latest_story.marked() }) )
-      this.render( 'article' )
+      this.render( 'story' )
     }else{
       this.render('add-article');
     }
@@ -61,11 +61,10 @@ router
     this.state.title = story.title;
     this.state.story = react.renderToString( StoryComponent({story: story.marked()}) );
 
-    this.render( 'article' );
+    this.render( 'story' );
   })
   .get('/add-article', function *(next){
-    var articles = yield Article.find();
-    this.render('add-article', {articles: articles} );
+    this.render('add-article');
   })
   .post('/add-article', koaBody, function *(next){
     var body = this.request.body;
