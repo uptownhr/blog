@@ -1,4 +1,5 @@
 module.exports = {
   username: 'Test User',
-  password: 'asdfadsf'
+  password: 'asdfadsf',
+  mongodb: process.env.MONGODB || 'mongodb://localhost/blog'
 };

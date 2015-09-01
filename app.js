@@ -1,5 +1,6 @@
 const koa = require('koa');
 const config = require('./config/config');
+const secret = require('./config/secret');
 const logger = require('koa-logger');
 
 const router = require('koa-router')();
@@ -18,7 +19,7 @@ const react = require('react');
 const ArticleNavComponent = react.createFactory( require('./src/js/components/ArticleNav') );
 const StoryComponent = react.createFactory( require('./src/js/components/Story') );
 
-mongoose.connect('mongodb://localhost/blog');
+mongoose.connect( secret.mongodb );
 
 
 const app = koa();
