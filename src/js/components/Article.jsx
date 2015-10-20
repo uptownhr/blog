@@ -14,6 +14,7 @@ class Article extends React.Component{
   }
 
   render(){
+
     return(
       <article id={this.props.id}>
         <div>
@@ -21,6 +22,9 @@ class Article extends React.Component{
         </div>
         <h2>{this.props.title}</h2>
         <div dangerouslySetInnerHTML={{__html: this.props.body}} />
+
+        <ul>
+        </ul>
       </article>
     );
   }

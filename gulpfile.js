@@ -92,4 +92,4 @@ const bundleBrowserify = function(b) {
 
 // running gulp (or in our ES6 case, node --harmony `which gulp`) will run the
 // task in this array
-gulp.task('default', ['watchify', 'css-bundle', 'watch']);
+gulp.task('default', ['watchify', 'css-bundle', 'watch','nodemon']);

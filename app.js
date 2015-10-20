@@ -1,3 +1,5 @@
+"use strict";
+
 const koa = require('koa');
 const config = require('./config/config');
 const secret = require('./config/secret');
@@ -34,7 +36,6 @@ app.use(jade.middleware({
 
 app.use(serve('public'));
 app.use(function *(next){
-  console.log(this.request);
   yield next;
 });
 app.use(function *(next){
@@ -62,13 +63,12 @@ router
   .get('/:slug', function *(next){
     var story = yield Story.findOne( {slug: this.params.slug} );
 
-    this.state.title = story.title;
-    this.state.story = react.renderToString( StoryComponent({story: story.marked()}) );
+    if( story ){
+      this.state.title = story.title;
+      this.state.story = react.renderToString( StoryComponent({story: story.marked()}) );
+    }
 
     this.render( 'story' );
-  })
-  .get('/add-article', function *(next){
-    this.render('add-article');
   })
   .post('/add-article', koaBody, function *(next){
     var body = this.request.body;
@@ -100,6 +100,22 @@ router
       number: 83,
       isProgrammer: true
     };
+  })
+  .get('/admin/add-article', function *(next){
+    this.render('add-article');
+  })
+  .get('/admin/edit-article/:story_id', function *(next){
+    var story = yield Story.findOne({_id: this.params.story_id});
+    this.render('add-article',{
+      article: story
+    });
+  })
+  .get('/admin/edit-article/:story_id/:post_id', function *(next){
+    var story = yield Story.findOne({slug: slug});
+    var post = story.posts.id(this.params.id);
+    this.render('add-article',{
+      article: post
+    });
   });
 
 app
