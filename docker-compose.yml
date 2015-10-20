@@ -1,0 +1,8 @@
+app:
+  image: blog
+  extra_hosts:
+  - "mongodb:10.132.220.165"
+  command: node /data/app.js
+  environment:
+    VIRTUAL_HOST: "jlee.biz,www.jlee.biz"
+    MONGODB: mongodb://mongodb:27017/blog
