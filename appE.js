@@ -58,4 +58,8 @@ app.use(function(req, res, next) {
     next(); 
 });
 
-require('./routes/routes.js')(app, router);
+app.brand = config.brand;
+app.title = config.title;
+app.author = config.author;
+
+require('./routes/routes.js')(app);

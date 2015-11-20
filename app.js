@@ -21,7 +21,7 @@ const react = require('react');
 const ArticleNavComponent = react.createFactory( require('./src/js/components/ArticleNav') );
 const StoryComponent = react.createFactory( require('./src/js/components/Story') );
 
-mongoose.connect( secret.mongodb );
+//mongoose.connect( secret.mongodb );
 
 
 const app = koa();

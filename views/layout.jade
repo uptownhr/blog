@@ -7,11 +7,10 @@ html
   body
     div.row
       div.col-sm-3.col-md-2
-        div.article_nav.col-sm-3.col-md-2
-          div.banner
-            h1
-              a(href="/")=brand
-            p=title
+        div.article_nav.col-sm-12
+          h1
+              a(href="/")= brand
+          p= title
           include ./partials/articleNav
       div.col-sm-9.col-md-10
         block content
