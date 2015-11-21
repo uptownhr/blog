@@ -48,6 +48,8 @@ if(env == 'development'){
 
 //Routes
 
+var Stories = require('./models/Story');
+
 // route middleware that will happen on every request
 app.use(function(req, res, next) {
 

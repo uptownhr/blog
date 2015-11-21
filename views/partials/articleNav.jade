@@ -5,5 +5,5 @@ ul#nav
     if story.posts.length > 0
       each post in story.posts
         li(class="nav-post")
-          a(href=post.slug+"#"+post._id)= post.title
+          a(href=story.slug+"#"+post._id)= post.title
 
