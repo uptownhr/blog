@@ -9,13 +9,17 @@ module.exports = function(app){
 
 			Stories.find(function(err, stories){
 				if(err)
-					res.send(err);
-				else if(stories){
+					res.sendStatus(err);
+				else if(stories.length>0){
 					//passing back the stories and the first story transformed into html from markdown
 					res.render('home', {stories: stories, story: stories[0].marked(), brand: app.brand, title: app.title});
 				}
+				else if(stories.length<1){
+					res.render('home', {stories: stories, story: null, brand: app.brand, title: app.title});
+				}
 				else
-					res.send(404);
+					res.sendStatus(404);
+
 
 			});
 		});
@@ -25,17 +29,20 @@ module.exports = function(app){
 
 			Stories.findOne({slug: req.params.slug}, function(err, story){
 				if(err){
-					console.log(err);
-					res.send(500);
+					console.log('Getting article error: '+err);
+					res.sendStatus(500);
 				}
 				else if(story){
-					getStories(function(stories){
-						console.log(stories);	
+					getStories(function(err, stories){
+						if(err){
+							console.log('Getting article error: '+err);
+							res.sendStatus(500);
+						}
 						res.render('story', {stories: stories, story: story.marked(), brand: app.brand, title: app.title});
 					});
 				}
 				else
-					res.send(404);
+					res.sendStatus(404);
 			});
 		});
 
@@ -45,15 +52,55 @@ module.exports = function(app){
 
 			Stories.find(function(err, stories){
 				if(err)
-					res.send(err);
+					res.sendStatus(err);
 				else if(stories){
 
 					res.render('add-article', {stories: stories, brand: app.brand, title: app.title});
 				}
 				else
-					res.send(500);
+					res.sendStatus(500);
 
 			});
+
+		})
+
+		.post(function(req, res){
+			console.log(req.body);
+
+			var Article = new Stories();
+
+			if(req.body.parent_article_id !== ''){
+				Article.title = req.body.title;
+				Article.body  = req.body.body;
+
+				Stories.findById(req.body.parent_article_id, function(err, story){
+					if(story){
+						story.posts.push(Article);
+						story.save();
+						res.sendStatus(200);
+					}
+					else{
+						console.log('Error posting new article');
+						res.sendStatus(500);
+					}
+
+				});
+			}
+			else{
+				console.log('hey');
+				Article.title = req.body.title;
+				Article.body  = req.body.body;
+				Article.save(function(err, article){
+					if(article){
+						res.sendStatus(200);
+					}
+					else{
+						console.log('Error saving the article');
+						res.sendStatus(500);
+					}
+				});
+			}
+
 
 		});
 
@@ -67,11 +114,12 @@ module.exports = function(app){
 			Stories.find(function(err, stories){
 				stories[1].posts.push(Post);
 				stories[1].save();
-				res.send(stories);
+				res.sendStatus(stories);
 			});
 		});
 
 
+	//Getting all the stories.
 	function getStories(callback){
 		Stories.find(function(err, stories){
 			if(err){
@@ -79,8 +127,7 @@ module.exports = function(app){
 			}
 
 			else if(stories){
-				//passing back the stories and the first story transformed into html from markdown
-				callback(stories);
+				callback(err, stories);
 			}
 
 		});

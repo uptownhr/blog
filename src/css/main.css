@@ -7,7 +7,7 @@ body{
 }
 
 .article_nav{
-    position: fixed;
+    position: fixed !important;
     top: 0;
 }
 
