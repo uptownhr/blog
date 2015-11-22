@@ -1,4 +1,18 @@
 extends layout.jade
 
 block content
-  div!= story
+	div
+		if story
+			article(id= story._id)
+				span= story.updatedAt 
+				|  | 
+				span= story.author
+				h2= story.title
+				div !{story.body}
+			each post in story.posts
+				article(id= post._id)
+					span= post.updatedAt 
+					|  | 
+					span= post.author
+					h2= post.title
+					div !{post.body}

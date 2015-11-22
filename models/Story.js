@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var markdown = require('markdown').markdown;
 var marked = require('marked');
 var config = require('../config/config');
 

@@ -2,8 +2,12 @@ body{
 
 }
 
+.banner{
+	width: auto;
+}
+
 .article_nav{
-    position: fixed;
+    position: fixed !important;
     top: 0;
 }
 
@@ -14,8 +18,14 @@ body{
 .article_nav li{
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
+/*    overflow: hidden;*/
+	list-style: none;
 }
+
+.nav-post{
+	padding-left: 10px;
+}
+
 
 article{
     padding: 10px;
