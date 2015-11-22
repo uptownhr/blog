@@ -12,10 +12,10 @@ module.exports = function(app){
 					res.sendStatus(err);
 				else if(stories.length>0){
 					//passing back the stories and the first story transformed into html from markdown
-					res.render('home', {stories: stories, story: stories[0].marked(), brand: app.brand, title: app.title});
+					res.render('home', {stories: stories, story: stories[0].marked()});
 				}
 				else if(stories.length<1){
-					res.render('home', {stories: stories, story: null, brand: app.brand, title: app.title});
+					res.render('home', {stories: stories, story: null});
 				}
 				else
 					res.sendStatus(404);
@@ -38,7 +38,7 @@ module.exports = function(app){
 							console.log('Getting article error: '+err);
 							res.sendStatus(500);
 						}
-						res.render('story', {stories: stories, story: story.marked(), brand: app.brand, title: app.title});
+						res.render('story', {stories: stories, story: story.marked()});
 					});
 				}
 				else
@@ -55,7 +55,7 @@ module.exports = function(app){
 					res.sendStatus(err);
 				else if(stories){
 
-					res.render('add-article', {stories: stories, brand: app.brand, title: app.title});
+					res.render('add-article', {stories: stories});
 				}
 				else
 					res.sendStatus(500);

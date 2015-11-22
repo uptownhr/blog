@@ -33,6 +33,10 @@ app.set('view engine', 'jade');
 
 app.use(session({secret: secret.sessionSecret}));
 
+app.locals.brand = config.brand;
+app.locals.title = config.title;
+app.locals.author = config.author;
+
 app.listen(port);
 console.log('Express server listening on port '+ port);
 
@@ -46,22 +50,25 @@ if(env == 'development'){
   app.locals.pretty = true;
 }
 
+
+
 //Routes
 
 var Stories = require('./models/Story');
 
 // route middleware that will happen on every request
 app.use(function(req, res, next) {
+	res.locals.brand = app.locals.brand;
+	res.locals.title = app.locals.title;
+	res.locals.author = app.locals.author;
 
     // log each request to the console
-    console.log(req.method, req.url);
+    //console.log(req.method, req.url);
 
     // continue doing what we were doing and go to the route
     next(); 
 });
 
-app.brand = config.brand;
-app.title = config.title;
-app.author = config.author;
+
 
 require('./routes/routes.js')(app);
