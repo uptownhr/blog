@@ -1,11 +1,10 @@
 var Stories = require('../models/Story');
 
-module.exports = function(app){
+module.exports = function(app, passport){
 
 	app.route('/')
 
 		.get(function(req, res){
-
 
 			Stories.find(function(err, stories){
 				if(err)
@@ -24,7 +23,7 @@ module.exports = function(app){
 			});
 		});
 
-	app.route('/:slug')
+	app.route('/article/:slug')
 		.get(function(req, res){
 
 			Stories.findOne({slug: req.params.slug}, function(err, story){
@@ -38,6 +37,7 @@ module.exports = function(app){
 							console.log('Getting article error: '+err);
 							res.sendStatus(500);
 						}
+						console.log(stories[0].slug);
 						res.render('story', {stories: stories, story: story.marked()});
 					});
 				}
@@ -47,7 +47,7 @@ module.exports = function(app){
 		});
 
 	app.route('/admin/add-article')
-		.get(function(req, res){
+		.get(isLoggedIn, function(req, res){
 
 
 			Stories.find(function(err, stories){
@@ -104,20 +104,27 @@ module.exports = function(app){
 
 		});
 
-	app.route('/addpost')
+	app.route('/login')
 		.get(function(req, res){
-			var Post = new Stories();
+			res.render('login');
+		})
 
-			Post.title = 'Post title';
-			Post.body = 'Post body';
+		.post(passport.authenticate('local-login', {
+			successRedirect: '/',
+			failureRedirect: '/login'
+		}));
 
-			Stories.find(function(err, stories){
-				stories[1].posts.push(Post);
-				stories[1].save();
-				res.sendStatus(stories);
-			});
-		});
 
+
+	app.route('/signup')
+		.get(function(req, res){
+			res.render('signup');
+		})
+
+		.post(passport.authenticate('local-signup', {
+			successRedirect: '/',
+			failureRedirect: '/signup'
+		}));
 
 	//Getting all the stories.
 	function getStories(callback){
@@ -131,6 +138,13 @@ module.exports = function(app){
 			}
 
 		});
+	}
+
+	function isLoggedIn(req, res, next){
+		if(req.isAuthenticated())
+			return next();
+
+		res.redirect('/');
 	}
 
 };

@@ -7,7 +7,7 @@ var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-
+var passport = require('passport');
 
 var config = require('./config/config');
 var secret = require('./config/secret');
@@ -17,7 +17,6 @@ var mongoose = require('mongoose');
 var configDb = require('./config/database')(mongoose);
 
 var app = express();
-var router = express.Router();
 var port = process.env.PORT || 2000;
 
 
@@ -28,14 +27,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'src')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'jade');
 
 app.use(session({secret: secret.sessionSecret}));
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/passport')(passport);
 
-app.locals.brand = config.brand;
-app.locals.title = config.title;
-app.locals.author = config.author;
 
 app.listen(port);
 console.log('Express server listening on port '+ port);
@@ -54,21 +53,16 @@ if(env == 'development'){
 
 //Routes
 
-var Stories = require('./models/Story');
 
-// route middleware that will happen on every request
+// route middleware to add config variables to our response locals
 app.use(function(req, res, next) {
-	res.locals.brand = app.locals.brand;
-	res.locals.title = app.locals.title;
-	res.locals.author = app.locals.author;
-
-    // log each request to the console
-    //console.log(req.method, req.url);
+	res.locals.brand = config.brand;
+	res.locals.title = config.title;
+	res.locals.author = config.author;
 
     // continue doing what we were doing and go to the route
     next(); 
 });
 
 
-
-require('./routes/routes.js')(app);
+require('./routes/routes.js')(app, passport);

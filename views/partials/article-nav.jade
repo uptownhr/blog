@@ -1,9 +1,10 @@
 ul#nav
-  each story in stories
-    li
-      a(href= story.slug+"#"+story._id)= story.title
-    if story.posts.length > 0
-      each post in story.posts
-        li(class="nav-post")
-          a(href=story.slug+"#"+post._id)= post.title
+  if stories
+    each story in stories
+      li
+        a(href= '/article/'+story.slug+"#"+story._id)= story.title
+      if story.posts.length > 0
+        each post in story.posts
+          li(class="nav-post")
+            a(href= '/article/'+story.slug+"#"+post._id)= post.title
 
