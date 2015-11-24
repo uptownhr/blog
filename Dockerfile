@@ -12,6 +12,5 @@ RUN gulp css-bundle
 RUN gulp browserify
 RUN npm install -g forever
 
-VOLUME ["/data"]
 EXPOSE 9999
 CMD forever start app.js && forever logs app.js -f
