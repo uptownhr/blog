@@ -20,6 +20,7 @@ var app = express();
 var router = express.Router();
 var port = process.env.PORT || 2000;
 
+var moment = require('moment');
 
 // Config express
 
@@ -36,6 +37,7 @@ app.use(session({secret: secret.sessionSecret}));
 app.locals.brand = config.brand;
 app.locals.title = config.title;
 app.locals.author = config.author;
+app.locals.moment = moment;
 
 app.listen(port);
 console.log('Express server listening on port '+ port);

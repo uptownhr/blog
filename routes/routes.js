@@ -7,7 +7,7 @@ module.exports = function(app){
 		.get(function(req, res){
 
 
-			Stories.find(function(err, stories){
+			Stories.find().sort({updatedAt: -1}).exec(function(err, stories){
 				if(err)
 					res.sendStatus(err);
 				else if(stories.length>0){
