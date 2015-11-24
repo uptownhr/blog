@@ -6,5 +6,7 @@ app:
   environment:
     VIRTUAL_HOST: "jlee.biz,www.jlee.biz"
     MONGODB: mongodb://mongodb:27017/blog
+    TITLE: 'Full stack development blog'
+    AUTHOR: 'James Lee'
 mongo:
  image: mongo
