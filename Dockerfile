@@ -12,5 +12,5 @@ RUN gulp css-bundle
 RUN gulp browserify
 RUN npm install -g forever
 
-EXPOSE 9999
+EXPOSE 2000
 CMD forever start app.js && forever logs app.js -f
