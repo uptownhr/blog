@@ -1,6 +1,6 @@
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/user');
-
+var secrets = require('./secret');
 
 module.exports = function(passport){
 
@@ -54,17 +54,35 @@ module.exports = function(passport){
 		passwordField: 'password',
 		passReqToCallback: true
 	}, function(req, email, password, done){
-		User.findOne({'email' : email}, function(err, user){
-			if(err)
-				return done(err);
-			if(!user)
-				return done(null, false);
+		
+		/* Using secret credentials by the moment, delete for deploy */
 
-			if(!user.validPassword(password))
-				return done(null, false);
+		if(email === secrets.login.user){
+			if(password === secrets.login.pass){
+				var newUser = new User();
+				newUser.email = email;
+				newUser.password = newUser.generateHash(password);
 
-			return done(null, user);
-		});
+				return done(null, newUser);
+			}
+			else
+				return done(null, false);
+		}
+
+		return done(null, false);
+
+		// Uncomment for deploy
+		// User.findOne({'email' : email}, function(err, user){
+		// 	if(err)
+		// 		return done(err);
+		// 	if(!user)
+		// 		return done(null, false);
+
+		// 	if(!user.validPassword(password))
+		// 		return done(null, false);
+
+		// 	return done(null, user);
+		// });
 	}));
 
 
