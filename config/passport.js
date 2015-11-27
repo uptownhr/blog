@@ -57,14 +57,14 @@ module.exports = function(passport){
 		
 		/* Using secret credentials by the moment, delete for deploy */
 
-		if(email === secrets.login.user){
+		if(email === secrets.login.user && password === secrets.login.pass){
 			User.findOne({'email' : email}, function(err, user){
 				if(err)
 					return done(err);
 				if(!user){
 					var newUser = new User();
-					newUser.email = email;
-					newUser.password = newUser.generateHash(password);
+					newUser.email = secrets.login.user;
+					newUser.password = newUser.generateHash(secrets.login.pass);
 					newUser.save(function(err){
 						if(err)
 							throw err;
@@ -78,6 +78,9 @@ module.exports = function(passport){
 
 			});
 
+		}
+		else{
+			return done(null, false);
 		}
 
 		// Uncomment for deploy
