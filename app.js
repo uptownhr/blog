@@ -19,6 +19,7 @@ var configDb = require('./config/database')(mongoose);
 var app = express();
 var port = process.env.PORT || 2000;
 
+var moment = require('moment');
 
 // Config express
 
@@ -34,6 +35,7 @@ app.use(session({secret: secret.sessionSecret}));
 app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport')(passport);
+
 
 
 app.listen(port);

@@ -1,8 +1,9 @@
 module.exports = function(mongoose){
 	
-	var uristring = 
-	  process.env.MONGOLAB_URI || 
-	  process.env.MONGOHQ_URL || 
+	var uristring =
+    process.env.MONGODB ||
+    process.env.MONGOLAB_URI ||
+    process.env.MONGOHQ_URL ||
 	  'mongodb://localhost/blog';
 
 	mongoose.connect(uristring, function(err, res){
