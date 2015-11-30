@@ -1,5 +1,9 @@
 ul#nav
-	li
-		a(href="admin/add-article") Add new article
-	li
-		a(href="admin/edit-story") Edit article
+	if user
+		li
+			a(href="/admin/add-article") Add new article
+		li
+			a(href="/admin/edit-article") Edit article
+	else
+		li
+			a(href="/login") Login

@@ -25,7 +25,6 @@ module.exports = function(app, passport){
 
 	app.route('/article/:slug')
 		.get(function(req, res){
-
 			Stories.findOne({slug: req.params.slug}, function(err, story){
 				if(err){
 					console.log('Getting article error: '+err);
@@ -64,8 +63,7 @@ module.exports = function(app, passport){
 
 		})
 
-		.post(function(req, res){
-			console.log(req.body);
+		.post(isLoggedIn, function(req, res){
 
 			var Article = new Stories();
 
@@ -87,7 +85,6 @@ module.exports = function(app, passport){
 				});
 			}
 			else{
-				console.log('hey');
 				Article.title = req.body.title;
 				Article.body  = req.body.body;
 				Article.save(function(err, article){
@@ -100,7 +97,25 @@ module.exports = function(app, passport){
 					}
 				});
 			}
+		});
 
+	app.route('/admin/edit-article')
+		.get(isLoggedIn, function(req, res){
+
+			Stories.find(function(err, stories){
+				if(err)
+					res.sendStatus(err);
+				else if(stories){
+
+					res.render('edit-article', {stories: stories});
+				}
+				else
+					res.sendStatus(500);
+
+			});
+		})
+
+		.post(isLoggedIn, function(req, res){
 
 		});
 
@@ -141,8 +156,6 @@ module.exports = function(app, passport){
 	}
 
 	function isLoggedIn(req, res, next){
-		console.log(req.user);
-		console.log(req.isAuthenticated());
 		if(req.isAuthenticated())
 			return next();
 

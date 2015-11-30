@@ -59,6 +59,7 @@ app.use(function(req, res, next) {
 	res.locals.brand = config.brand;
 	res.locals.title = config.title;
 	res.locals.author = config.author;
+	res.locals.user = req.user;
 
     // continue doing what we were doing and go to the route
     next(); 
