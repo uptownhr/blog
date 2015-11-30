@@ -62,6 +62,7 @@ app.use(function(req, res, next) {
 	res.locals.title = config.title;
 	res.locals.author = config.author;
 	res.locals.user = req.user;
+	res.locals.moment = moment;
 
     // continue doing what we were doing and go to the route
     next(); 
