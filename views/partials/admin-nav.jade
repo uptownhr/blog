@@ -1,0 +1,10 @@
+ul#nav
+	if user
+		li
+			a(href="/admin/add-article") Add new article
+		if stories
+			li
+				a(href="/admin/edit-article") Edit article
+	else
+		li
+			a(href="/login") Login

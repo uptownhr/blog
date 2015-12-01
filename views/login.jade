@@ -1,0 +1,18 @@
+extends layout.jade
+
+block content
+	div.col-sm-6
+		h1 Login
+		form(action="/login", method="post")
+			.form-group
+				label Email
+				input(type="text", class="form-control", name="email")
+			.form-group
+				label Password
+				input(type="password", class="form-control", name="password")
+
+			button(type="submit", class="btn btn-success") Login
+
+		hr
+		p If you need an account go to 
+			a(href="/signup") Signup

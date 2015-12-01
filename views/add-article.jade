@@ -3,18 +3,19 @@ extends ./layout.jade
 block title
   title Add Article
 block content
-  form(method="post" action="/admin/add-article")
+  form.form-article(method="post" action="/admin/add-article")
     div.form-group
       label Select Story
       select.form-control(name="parent_article_id")
         option(value="") New Story
-        each story, i in stories
-          option(value="#{story._id}") #{story.title}
+        if stories
+          each story, i in stories
+            option(value="#{story._id}") #{story.title}
     div.form-group
       label Title
       input.form-control(type="text" placeholder="title" name="title")
     div.form-group
       label Body
-      textarea.form-control(rows="5" name="body")
+      textarea.form-control(rows="15" name="body")
     input(type="hidden" name="author" value="#{author}")
     button.btn.btn-default(type="submit") Add Article

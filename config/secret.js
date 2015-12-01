@@ -1,5 +1,9 @@
 module.exports = {
   username: 'Test User',
   password: 'asdfadsf',
-  sessionSecret: 'sessionSecret'
+  sessionSecret: 'sessionSecret',
+  login: {
+  	user: 'admin',
+  	pass: 'test'
+  }
 };
