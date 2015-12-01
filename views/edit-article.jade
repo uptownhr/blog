@@ -8,12 +8,13 @@ block content
   form.form-article(method="post" action="/admin/edit-article")
     div.form-group
       label Select Story
-      select.form-control(id="select" name="parent_article_id" onchange="selStory(this)")
-        option(value="") New Story
-        each story, i in stories
-          option(value="#{story._id}") #{story.title}
-          each post in story.posts
-            option(value="#{post._id}") -- #{post.title}
+      select.form-control(id="select" name="article_id" onchange="selStory(this)" required="true")
+        option(value="") Select a Story
+        if stories
+          each story, i in stories
+            option(value="#{story._id}" articleType="story") #{story.title}
+            each post, index in story.posts
+              option(value="#{story._id}_"+"#{index}" articleType="post") -- #{post.title}
     div.form-group
       label Title
       input.form-control(id="title" type="text" placeholder="title" name="title")
@@ -26,23 +27,33 @@ block content
 
     script.
       var st = !{JSON.stringify(stories)};
-
+  
       var title = document.getElementById('title');
       var body = document.getElementById('body');
 
       function selStory(sel){
-        for(var i=0; i<st.length; i++){
-          if(st[i]._id == sel.value){
-            title.value = st[i].title;
-            body.value = st[i].body;
+        if(sel.value==''){
+          title.value = '';
+          body.value = '';
+        }
+        else{
+          var splitId = sel.value.split("_");
+          if(splitId.length>1){
+            for(var i=0; i<st.length; i++){
+              if(st[i]._id == splitId[0]){
+                title.value = st[i].posts[splitId[1]].title;
+                body.value = st[i].posts[splitId[1]].body;
+              }
+            }
           }
-          else if(st[i].posts.length>0){
-            for(var x=0; x<st[i].posts.length; x++){
-              if(st[i].posts[x]._id == sel.value){
-                title.value = st[i].posts[x].title;
-                body.value = st[i].posts[x].body;
+          else{
+            for(var i=0; i<st.length; i++){
+              if(st[i]._id == sel.value){
+                title.value = st[i].title;
+                body.value = st[i].body;
               }
             }
           }
         }
+        
       }

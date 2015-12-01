@@ -8,8 +8,9 @@ block content
       label Select Story
       select.form-control(name="parent_article_id")
         option(value="") New Story
-        each story, i in stories
-          option(value="#{story._id}") #{story.title}
+        if stories
+          each story, i in stories
+            option(value="#{story._id}") #{story.title}
     div.form-group
       label Title
       input.form-control(type="text" placeholder="title" name="title")

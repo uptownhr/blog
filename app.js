@@ -55,6 +55,7 @@ if(env == 'development'){
 
 //Routes
 
+var Stories = require('./models/Story');
 
 // route middleware to add config variables to our response locals
 app.use(function(req, res, next) {
@@ -64,8 +65,23 @@ app.use(function(req, res, next) {
 	res.locals.user = req.user;
 	res.locals.moment = moment;
 
+	//Add the stories to our locals for the navigation   
+	Stories.find().sort({updatedAt: -1}).exec(function(err, stories){
+		if(err){
+			console.log('Error adding stories to locals');
+			next();
+		}
+		else if(stories.length>0){
+			//passing back the stories and the first story transformed into html from markdown
+			res.locals.stories = stories;
+    		next(); 
+		}
+		else{
+    		next(); 
+		}
+	});
+
     // continue doing what we were doing and go to the route
-    next(); 
 });
 
 
