@@ -4,14 +4,15 @@ html
       title= title
     link(rel="stylesheet" type="text/css" href="/css/main.css")
     link(rel="stylesheet" type="text/css" href="/css/bootstrap.min.css")
+    link(rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css")
   body
     div.row
-      div.col-sm-3.col-md-2
-        div.article_nav.col-sm-12
+      div.col-sm-3.col-md-3
+        div.col-sm-12.nav
           h1
               a(href="/")= brand
           include ./partials/article-nav
           include ./partials/admin-nav
-      div.col-sm-9.col-md-10
+      div.col-sm-9.col-md-9
         block content
     script(type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js")

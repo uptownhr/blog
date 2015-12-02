@@ -8,5 +8,7 @@ app:
     MONGODB: mongodb://mongodb:27017/blog
     TITLE: 'Full stack development blog'
     AUTHOR: 'James Lee'
+  volumes:
+  - ./:/data
 mongo:
  image: mongo
